@@ -29,7 +29,7 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
       if (!name) continue;
 
       const jsDocs = func.getJsDocs();
-      const description = jsDocs.length > 0 ? jsDocs[0].getComment()?.trim() : undefined;
+      const description = jsDocs.length > 0 ? jsDocs[0].getComment()?.toString().trim() : undefined;
       if (!description && !ignoreMissing) {
         throw new Error(`Missing function description for "${name}" in ${filePath}`);
       }
@@ -47,7 +47,7 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
         const paramDescription = jsDocs
           .flatMap(doc => doc.getTags())
           .find(tag => tag.getTagName() === "param" && tag.getText().includes(paramName))
-          ?.getComment()?.trim();
+          ?.getComment()?.toString().trim();
 
         if (!paramDescription && !ignoreMissing) {
           throw new Error(`Missing JSDoc @param description for parameter "${paramName}" in function "${name}"`);
