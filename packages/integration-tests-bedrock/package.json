@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test:inprogress": "vitest run"
+    "test:integration": "vitest run"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.751.0",

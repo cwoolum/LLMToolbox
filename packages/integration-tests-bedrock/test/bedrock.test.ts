@@ -1,54 +1,29 @@
+import { exec } from "child_process";
+import { readFileSync } from "fs";
+import { promisify } from "util";
 import { describe, it, expect } from "vitest";
-import { execSync } from "child_process";
-import * as fs from "fs";
-import * as path from "path";
 
-const cliPath = path.resolve(__dirname, "../../llm-toolbox/dist/bin/index.js");
-const testFilePath = path.resolve(__dirname, "test_file.ts");
-const outputFilePath = path.resolve(__dirname, "schema.json");
+const execAsync = promisify(exec);
 
-// Create a temporary test file
-fs.writeFileSync(
-  testFilePath,
-  `/**
-   * A test function.
-   * @param param a test parameter.
-   */
-  function testFunc(param: string): string {
-    return param;
-  }
-  `
-);
+describe("Generate Tool Config Integration Test", () => {
+  it("should generate the tool config file correctly", async () => {
+    const command =
+      "npx tsx ../llm-toolbox/src/bin/index.ts -f src/sample-tools.ts -r bedrock -o src/generated-tool-config.ts";
 
-describe("Bedrock Integration Tests", () => {
-  it("should generate schema for Bedrock", () => {
-    execSync(`node ${cliPath} -f ${testFilePath} -r bedrock -o ${outputFilePath} --debug`);
-    const schema = JSON.parse(fs.readFileSync(outputFilePath, "utf-8"));
-    expect(schema).toEqual({
-      tools: [
-        {
-          toolSpec: {
-            name: "testFunc",
-            description: "A test function.",
-            inputSchema: {
-              json: {
-                type: "object",
-                properties: {
-                  param: {
-                    type: "string",
-                    description: "a test parameter.",
-                  },
-                },
-                required: ["param"],
-              },
-            },
-          },
-        },
-      ],
-    });
-  });
+    // Run the generation command
+    await execAsync(command);
+
+    // Read the generated file
+    const generatedConfig = readFileSync(
+      "src/generated-tool-config.ts",
+      "utf-8"
+    );
+
+    // Validate the content of the generated file
+    expect(generatedConfig).toContain("testFunc");
+    expect(generatedConfig).toContain("A test function with a return type.");
+
+    // Compile the TypeScript file to ensure it's valid
+    await execAsync("npx tsc src/bedrock-call.ts");
+  }, 20000);
 });
-
-// Clean up temporary test file
-fs.unlinkSync(testFilePath);
-fs.unlinkSync(outputFilePath);

@@ -43,7 +43,7 @@ export function runCLI() {
     process.exit(1);
   }
 
-  fs.writeFileSync(outputFile, JSON.stringify(schema, null, 2));
+  fs.writeFileSync(outputFile, `export const toolConfig = ${JSON.stringify(schema, null, 2)}`);
   console.log(`Schema written to ${outputFile}`);
 
   if (debug) {
