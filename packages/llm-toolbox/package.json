@@ -5,6 +5,9 @@
   "author": "Chris Woolum",
   "license": "MIT",
   "description": "",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "llm-toolbox": "dist/bin/index.js"
   },

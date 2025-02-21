@@ -12,6 +12,21 @@ const expectedFunctionNames: Record<string, string> = {
   variant3: "helloWorld"
 };
 
+function runCommand(command: string) {
+  try {
+    const output = execSync(command, { stdio: 'pipe' });
+    console.log(`Command output: ${output.toString()}`);
+  } catch (error) {
+    if (error.stdout) {
+      console.error(`Command stdout: ${error.stdout.toString()}`);
+    }
+    if (error.stderr) {
+      console.error(`Command stderr: ${error.stderr.toString()}`);
+    }
+    throw error;
+  }
+}
+
 describe("Sample Tools Runner Integration Tests", () => {
   sampleToolsVariants.forEach(variant => {
     it(`should generate tool config for variant ${variant.name}`, () => {
@@ -23,10 +38,10 @@ describe("Sample Tools Runner Integration Tests", () => {
       const outputFilePath = path.join(__dirname, `generated-tool-config-${variant.name}.ts`);
       
       // Construct CLI command using relative paths (assuming cwd: integration-tests-bedrock/test)
-      const cliCmd = `npx tsx ../llm-toolbox/src/bin/index.ts -f ${tmpFilePath} -r bedrock -o ${outputFilePath}`;
+      const cliCmd = `llm-toolbox -f ${tmpFilePath} -r bedrock -o ${outputFilePath}`;
 
       // Execute the CLI command
-      execSync(cliCmd, { stdio: 'inherit' });
+      runCommand(cliCmd);
 
       // Read and validate the generated configuration
       const generatedConfig = fs.readFileSync(outputFilePath, 'utf-8');
@@ -44,7 +59,7 @@ console.log('Type check passed for variant: ${variant.name}');
 `;
       fs.writeFileSync(typeCheckFilePath, typeCheckFileContent);
       // Run TypeScript compiler for type checking
-      execSync(`npx tsc ${typeCheckFilePath} --noEmit`, { stdio: 'inherit' });
+      runCommand(`npx tsc ${typeCheckFilePath} --noEmit`);
       fs.unlinkSync(typeCheckFilePath);
 
       // Cleanup temporary files
