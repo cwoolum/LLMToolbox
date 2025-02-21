@@ -22,21 +22,24 @@ describe("generateBedrockSchema", () => {
     const schema = generateBedrockSchema(tools);
 
     expect(schema).toEqual({
-      functions: [
+      tools: [
         {
-          functionName: "testFunc",
-          functionDescription: "A test function.",
-          functionParameters: {
-            type: "object",
-            properties: {
-              param: {
-                type: "string",
-                description: "a test parameter.",
+          toolSpec: {
+            name: "testFunc",
+            description: "A test function.",
+            inputSchema: {
+              json: {
+                type: "object",
+                properties: {
+                  param: {
+                    type: "string",
+                    description: "a test parameter.",
+                  },
+                },
+                required: ["param"],
               },
             },
-            required: ["param"],
           },
-          functionReturnType: "string",
         },
       ],
     });
@@ -73,36 +76,42 @@ describe("generateBedrockSchema", () => {
     const schema = generateBedrockSchema(tools);
 
     expect(schema).toEqual({
-      functions: [
+      tools: [
         {
-          functionName: "testFunc1",
-          functionDescription: "First test function.",
-          functionParameters: {
-            type: "object",
-            properties: {
-              param1: {
-                type: "string",
-                description: "first parameter.",
+          toolSpec: {
+            name: "testFunc1",
+            description: "First test function.",
+            inputSchema: {
+              json: {
+                type: "object",
+                properties: {
+                  param1: {
+                    type: "string",
+                    description: "first parameter.",
+                  },
+                },
+                required: ["param1"],
               },
             },
-            required: ["param1"],
           },
-          functionReturnType: "string",
         },
         {
-          functionName: "testFunc2",
-          functionDescription: "Second test function.",
-          functionParameters: {
-            type: "object",
-            properties: {
-              param2: {
-                type: "number",
-                description: "second parameter.",
+          toolSpec: {
+            name: "testFunc2",
+            description: "Second test function.",
+            inputSchema: {
+              json: {
+                type: "object",
+                properties: {
+                  param2: {
+                    type: "number",
+                    description: "second parameter.",
+                  },
+                },
+                required: ["param2"],
               },
             },
-            required: ["param2"],
           },
-          functionReturnType: "number",
         },
       ],
     });
@@ -127,22 +136,25 @@ describe("generateBedrockSchema", () => {
     const schema = generateBedrockSchema(tools, "testModel");
 
     expect(schema).toEqual({
-      functions: [
+      tools: [
         {
-          functionName: "testFunc",
-          functionDescription: "A test function.",
-          functionParameters: {
-            type: "object",
-            properties: {
-              param: {
-                type: "string",
-                description: "a test parameter.",
+          toolSpec: {
+            name: "testFunc",
+            description: "A test function.",
+            inputSchema: {
+              json: {
+                type: "object",
+                properties: {
+                  param: {
+                    type: "string",
+                    description: "a test parameter.",
+                  },
+                },
+                required: ["param"],
               },
             },
-            required: ["param"],
+            model: "testModel",
           },
-          functionReturnType: "string",
-          model: "testModel",
         },
       ],
     });
