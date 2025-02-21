@@ -1,4 +1,6 @@
-import { Project, JSDoc } from "ts-morph";
+import { Project } from "ts-morph";
+import path from "path";
+import fs from "fs";
 
 export interface ParameterMetadata {
   name: string;
@@ -21,7 +23,12 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
   let tools: ToolMetadata[] = [];
 
   for (const filePath of files) {
-    const sourceFile = project.addSourceFileAtPath(filePath);
+    const standardizedFilePath = path.resolve(filePath);
+    console.log("Standardized file path:", standardizedFilePath);
+    if (!fs.existsSync(standardizedFilePath)) {
+      throw new Error(`File not found: ${standardizedFilePath}`);
+    }
+    const sourceFile = project.addSourceFileAtPath(standardizedFilePath);
     const functions = sourceFile.getFunctions();
 
     for (const func of functions) {
@@ -43,7 +50,6 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
       const paramsMeta: ParameterMetadata[] = parameters.map(param => {
         const paramName = param.getName();
         const paramType = param.getType().getText();
-        // Use getComment() to retrieve the parameter description from the JSDoc tag
         const paramDescription = jsDocs
           .flatMap(doc => doc.getTags())
           .find(tag => tag.getTagName() === "param" && tag.getText().includes(paramName))

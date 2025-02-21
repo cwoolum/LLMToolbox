@@ -1,0 +1,14 @@
+{
+  "name": "integration-tests-langchain",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:inprogress": "vitest run"
+  },
+  "dependencies": {
+    "llm-toolbox": "*"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.6"
+  }
+}

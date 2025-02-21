@@ -1,0 +1,15 @@
+{
+  "name": "integration-tests-bedrock",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:inprogress": "vitest run"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.751.0",
+    "llm-toolbox": "*"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.6"
+  }
+}
