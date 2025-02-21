@@ -2,8 +2,8 @@
   "name": "llm-toolbox",
   "version": "1.0.0",
   "type": "module",
-  "author": "",
-  "license": "ISC",
+  "author": "Chris Woolum",
+  "license": "MIT",
   "description": "",
   "bin": {
     "llm-toolbox": "dist/bin/index.js"
