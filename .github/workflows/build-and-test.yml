@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build, Test, and Release
 
 on:
   push:
@@ -35,3 +35,27 @@ jobs:
       with:
         name: coverage-report
         path: ./coverage
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Create Release Pull Request or Publish to npm
+      id: changesets
+      uses: changesets/action@v1
+      with:
+        publish: npm
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
