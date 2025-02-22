@@ -1,8 +1,5 @@
 name: Build, Test, and Release
 
-permissions:
-  contents: write
-
 on:
   push:
     branches:
@@ -55,6 +52,9 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
