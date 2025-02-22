@@ -1,7 +1,6 @@
 # CLI Tool for Generating Function Metadata Schemas
 
-![Build Status](https://github.com/cwoolum/LLMToolbox/actions/workflows/build-and-test.yml/badge.svg)
-![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/cwoolum/your-gist-id/raw/coverage.json)
+![Build Status](https://github.com/cwoolum/LLMToolbox/actions/workflows/push.yml/badge.svg)
 
 ## Overview
 
