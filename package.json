@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "test": "npx vitest run"
+    "test": "npx vitest run --coverage"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.5",
