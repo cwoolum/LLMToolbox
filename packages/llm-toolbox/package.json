@@ -6,7 +6,7 @@
   "license": "MIT",
   "description": "",
   "files": [
-    "dist",
+    "dist"
   ],
   "repository": {
     "type": "git",
