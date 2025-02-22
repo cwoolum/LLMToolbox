@@ -20,7 +20,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '22'
+        node-version: '20'
 
     - name: Cache node modules
       uses: actions/cache@v3
@@ -29,6 +29,14 @@ jobs:
         key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node_modules-
+
+    - name: Cache Turbo cache
+      uses: actions/cache@v3
+      with:
+        path: .turbo
+        key: ${{ runner.os }}-turbo-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-turbo-
 
     - name: Install dependencies
       run: npm install
