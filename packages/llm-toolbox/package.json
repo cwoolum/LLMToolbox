@@ -1,13 +1,29 @@
 {
   "name": "llm-toolbox",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "author": "Chris Woolum",
   "license": "MIT",
   "description": "",
   "files": [
-    "dist"
+    "dist",
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cwoolum/LLMToolbox.git"
+  },
+  "keywords": [
+    "cli",
+    "toolbox",
+    "llm"
+  ],
+  "bugs": {
+    "url": "https://github.com/cwoolum/LLMToolbox/issues"
+  },
+  "homepage": "https://github.com/cwoolum/LLMToolbox#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "bin": {
     "llm-toolbox": "dist/bin/index.js"
   },
@@ -27,5 +43,6 @@
     "@vitest/coverage-v8": "^3.0.6",
     "typescript": "^5.0.0",
     "vitest": "^3.0.6"
-  }
+  },
+  "readme": "../../README.md"
 }
