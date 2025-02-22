@@ -35,16 +35,6 @@ jobs:
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
-      # - name: Cache node modules
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: node_modules
-      #     key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-node_modules-
-
-      
-
       - name: Install dependencies
         run: npm install
 
@@ -71,6 +61,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "lts/*"
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
 
       - name: Install dependencies
         run: npm install
