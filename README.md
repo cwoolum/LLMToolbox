@@ -6,6 +6,13 @@
 
 This CLI tool extracts function metadata from TypeScript and JavaScript files and generates schema definitions for AI frameworks like LangChain and AWS Bedrock.
 
+## Features
+
+- Extracts function metadata from TypeScript and JavaScript files
+- Generates schema definitions for AI frameworks
+- Supports LangChain and AWS Bedrock frameworks
+- Command-line interface for easy usage
+
 ## Installation
 
 ```sh
@@ -42,6 +49,21 @@ cli-tool -f src/tools.ts -r langchain -o schema.json --debug
 | --------- | ---------------- |
 | LangChain | N/A              |
 | Bedrock   | Claude, Nova     |
+
+## Implementation Matrix
+
+| Framework | Status |
+| --------- | ------ |
+| LangChain | Not Tested |
+| Bedrock   | Alpha Tested |
+
+## Contributing
+
+Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) first.
+
+## Acknowledgements
+
+We would like to thank all the contributors and the open-source community for their support.
 
 ## License
 
