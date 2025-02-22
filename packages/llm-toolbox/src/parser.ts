@@ -23,7 +23,7 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
   let tools: ToolMetadata[] = [];
 
   for (const filePath of files) {
-    const standardizedFilePath = path.resolve(filePath);
+    const standardizedFilePath = path.resolve(process.cwd(), filePath);
     console.log("Standardized file path:", standardizedFilePath);
     if (!fs.existsSync(standardizedFilePath)) {
       throw new Error(`File not found: ${standardizedFilePath}`);
