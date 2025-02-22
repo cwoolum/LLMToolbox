@@ -78,6 +78,6 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: npm publish
+          publish: npm publish -w packages/llm-toolkit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
