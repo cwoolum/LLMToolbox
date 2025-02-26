@@ -11,15 +11,11 @@ export function runCLI() {
     .requiredOption("-f, --files <paths...>", "File paths to process")
     .requiredOption(
       "-r, --framework <framework>",
-      "Framework to generate schema for (langchain, bedrock, or anthropic)"
+      "Framework to generate schema for (langchain, bedrock, or anthropic)",
     )
     .option("-m, --model <model>", "Optional model name")
     .requiredOption("-o, --output <file>", "Output file name")
-    .option(
-      "--ignore-missing-metadata",
-      "Ignore missing metadata errors",
-      false
-    )
+    .option("--ignore-missing-metadata", "Ignore missing metadata errors", false)
     .option("--debug", "Enable debug mode", false);
 
   program.parse(process.argv);

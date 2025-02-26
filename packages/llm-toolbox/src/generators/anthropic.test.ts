@@ -13,13 +13,13 @@ describe("Anthropic Generator", () => {
             name: "location",
             type: "string",
             description: "The city and state, e.g. San Francisco, CA",
-            nullable: false
+            nullable: false,
           },
           {
             name: "days",
             type: "number",
             description: "The number of days in the forecast",
-            nullable: true
+            nullable: true,
           },
         ],
         returnType: "string",

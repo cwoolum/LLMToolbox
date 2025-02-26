@@ -2,6 +2,7 @@
   "name": "llm-toolbox-monorepo",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/llm-toolbox",
     "packages/integration-tests-langchain",
@@ -11,13 +12,27 @@
   "scripts": {
     "build": "turbo run build",
     "build.changelog-formatter": "tsc .changeset/changelog-github-custom.ts && mv .changeset/changelog-github-custom.js .changeset/changelog-github-custom.cjs",
-    "test": "npx vitest run --coverage"
+    "test": "npx vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --check \"**/*.{js,ts,tsx}\"",
+    "format:fix": "prettier --write \"**/*.{js,ts,tsx}\""
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.5",
     "@changesets/get-github-info": "^0.6.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "@vitest/ui": "^3.0.6",
     "dotenv": "^16.4.7",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^13.24.0",
+    "prettier": "^3.5.2",
+    "typescript-eslint": "^7.18.0",
     "turbo": "^2.4.2"
   },
   "packageManager": "npm@10.9.2",

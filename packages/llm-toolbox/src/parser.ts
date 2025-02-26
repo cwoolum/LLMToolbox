@@ -48,13 +48,15 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
       }
 
       const parameters = func.getParameters();
-      const paramsMeta: ParameterMetadata[] = parameters.map(param => {
+      const paramsMeta: ParameterMetadata[] = parameters.map((param) => {
         const paramName = param.getName();
         const paramType = param.getType().getText();
         const paramDescription = jsDocs
-          .flatMap(doc => doc.getTags())
-          .find(tag => tag.getTagName() === "param" && tag.getText().includes(paramName))
-          ?.getComment()?.toString().trim();
+          .flatMap((doc) => doc.getTags())
+          .find((tag) => tag.getTagName() === "param" && tag.getText().includes(paramName))
+          ?.getComment()
+          ?.toString()
+          .trim();
 
         if (!paramDescription && !ignoreMissing) {
           throw new Error(`Missing JSDoc @param description for parameter "${paramName}" in function "${name}"`);
