@@ -45,7 +45,7 @@ describe("generateBedrockSchema", () => {
     });
   });
 
-  it("should generate schema for multiple tools", () => {
+  it("should generate schema for multiple tools with nullable parameters", () => {
     const tools: ToolMetadata[] = [
       {
         name: "testFunc1",
@@ -55,6 +55,7 @@ describe("generateBedrockSchema", () => {
             name: "param1",
             type: "string",
             description: "first parameter.",
+            nullable: false
           },
         ],
         returnType: "string",
@@ -67,6 +68,13 @@ describe("generateBedrockSchema", () => {
             name: "param2",
             type: "number",
             description: "second parameter.",
+            nullable: true
+          },
+          {
+            name: "param3",
+            type: "boolean",
+            description: "third parameter.",
+            nullable: false
           },
         ],
         returnType: "number",
@@ -107,8 +115,12 @@ describe("generateBedrockSchema", () => {
                     type: "number",
                     description: "second parameter.",
                   },
+                  param3: {
+                    type: "boolean",
+                    description: "third parameter.",
+                  },
                 },
-                required: ["param2"],
+                required: ["param3"],
               },
             },
           },
