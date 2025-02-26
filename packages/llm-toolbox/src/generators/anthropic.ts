@@ -1,14 +1,14 @@
 import { ToolMetadata } from "../parser.js";
 
-export function generateLangChainSchema(tools: ToolMetadata[], model?: string) {
+export function generateAnthropicSchema(tools: ToolMetadata[], model?: string) {
   return {
-    tools: tools.map(tool => ({
+    tools: tools.map((tool) => ({
       name: tool.name,
       description: tool.description,
-      parameters: {
+      input_schema: {
         type: "object",
         properties: Object.fromEntries(
-          tool.parameters.map(param => [
+          tool.parameters.map((param) => [
             param.name,
             {
               type: param.type,
@@ -18,7 +18,6 @@ export function generateLangChainSchema(tools: ToolMetadata[], model?: string) {
         ),
         required: tool.parameters.filter(param => !param.nullable).map(param => param.name),
       },
-      returnType: tool.returnType,
       ...(model ? { model } : {}),
     })),
   };

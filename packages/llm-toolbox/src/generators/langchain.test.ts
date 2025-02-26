@@ -42,7 +42,7 @@ describe("generateLangChainSchema", () => {
     });
   });
 
-  it("should generate schema for multiple tools", () => {
+  it("should generate schema for multiple tools with nullable parameters", () => {
     const tools: ToolMetadata[] = [
       {
         name: "testFunc1",
@@ -52,6 +52,7 @@ describe("generateLangChainSchema", () => {
             name: "param1",
             type: "string",
             description: "first parameter.",
+            nullable: false
           },
         ],
         returnType: "string",
@@ -64,7 +65,14 @@ describe("generateLangChainSchema", () => {
             name: "param2",
             type: "number",
             description: "second parameter.",
+            nullable: true
           },
+          {
+            name: "param3",
+            type: "string",
+            description: "third parameter.",
+            nullable: false
+          }
         ],
         returnType: "number",
       },
@@ -99,8 +107,12 @@ describe("generateLangChainSchema", () => {
                 type: "number",
                 description: "second parameter.",
               },
+              param3: {
+                type: "string",
+                description: "third parameter.",
+              },
             },
-            required: ["param2"],
+            required: ["param3"],
           },
           returnType: "number",
         },

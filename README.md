@@ -4,13 +4,13 @@
 
 ## Overview
 
-This CLI tool extracts function metadata from TypeScript and JavaScript files and generates schema definitions for AI frameworks like LangChain and AWS Bedrock.
+This CLI tool extracts function metadata from TypeScript and JavaScript files and generates schema definitions for AI frameworks like LangChain, AWS Bedrock, and Anthropic.
 
 ## Features
 
 - Extracts function metadata from TypeScript and JavaScript files
 - Generates schema definitions for AI frameworks
-- Supports LangChain and AWS Bedrock frameworks
+- Supports LangChain, AWS Bedrock, and Anthropic frameworks
 - Command-line interface for easy usage
 
 ## Installation
@@ -28,7 +28,7 @@ cli-tool -f <file.ts> -r <framework> -o <output.json> [options]
 ### Required Parameters:
 
 - `-f, --files <paths...>`: One or more file paths to parse.
-- `-r, --framework <framework>`: Target framework (`langchain` or `bedrock`).
+- `-r, --framework <framework>`: Target framework (`langchain`, `bedrock`, or `anthropic`).
 - `-o, --output <file>`: Output file to save the generated schema.
 
 ### Optional Parameters:
@@ -37,10 +37,17 @@ cli-tool -f <file.ts> -r <framework> -o <output.json> [options]
 - `--ignore-missing-metadata`: Continue even if metadata is missing.
 - `--debug`: Print the generated schema to the console.
 
-## Example
+## Examples
 
 ```sh
-cli-tool -f src/tools.ts -r langchain -o schema.json --debug
+# Generate LangChain schema
+cli-tool -f src/tools.ts -r langchain -o langchain-schema.json --debug
+
+# Generate Bedrock schema
+cli-tool -f src/tools.ts -r bedrock -o bedrock-schema.json -m claude-3-sonnet
+
+# Generate Anthropic schema
+cli-tool -f src/tools.ts -r anthropic -o anthropic-schema.json -m claude-3-opus-20240229
 ```
 
 ## Supported Frameworks and Models
@@ -49,6 +56,7 @@ cli-tool -f src/tools.ts -r langchain -o schema.json --debug
 | --------- | ---------------- |
 | LangChain | N/A              |
 | Bedrock   | Claude, Nova     |
+| Anthropic | Claude 3 family  |
 
 ## Implementation Matrix
 
@@ -56,6 +64,7 @@ cli-tool -f src/tools.ts -r langchain -o schema.json --debug
 | --------- | ------ |
 | LangChain | Not Tested |
 | Bedrock   | Alpha Tested |
+| Anthropic | Alpha |
 
 ## Contributing
 

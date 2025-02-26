@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { parseFiles } from "./parser.js";
 import { generateLangChainSchema } from "./generators/langchain.js";
 import { generateBedrockSchema } from "./generators/bedrock.js";
+import { generateAnthropicSchema } from "./generators/anthropic.js";
 import * as fs from "fs";
 
 export function runCLI() {
@@ -10,7 +11,7 @@ export function runCLI() {
     .requiredOption("-f, --files <paths...>", "File paths to process")
     .requiredOption(
       "-r, --framework <framework>",
-      "Framework to generate schema for"
+      "Framework to generate schema for (langchain, bedrock, or anthropic)"
     )
     .option("-m, --model <model>", "Optional model name")
     .requiredOption("-o, --output <file>", "Output file name")
@@ -38,8 +39,10 @@ export function runCLI() {
     schema = generateLangChainSchema(parsedData, model);
   } else if (framework === "bedrock") {
     schema = generateBedrockSchema(parsedData, model);
+  } else if (framework === "anthropic") {
+    schema = generateAnthropicSchema(parsedData, model);
   } else {
-    console.error(`Unsupported framework: ${framework}`);
+    console.error(`Unsupported framework: ${framework}. Supported frameworks: langchain, bedrock, anthropic`);
     process.exit(1);
   }
 

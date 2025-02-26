@@ -18,7 +18,7 @@ export function generateBedrockSchema(tools: ToolMetadata[], model?: string) {
                 },
               ])
             ),
-            required: tool.parameters.map((param) => param.name),
+            required: tool.parameters.filter(param => !param.nullable).map(param => param.name),
           },
         },
         ...(model ? { model } : {}),

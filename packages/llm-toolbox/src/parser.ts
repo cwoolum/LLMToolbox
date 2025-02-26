@@ -7,6 +7,7 @@ export interface ParameterMetadata {
   type: string;
   description: string;
   defaultValue?: string;
+  nullable?: boolean;
 }
 
 export interface ToolMetadata {
@@ -59,10 +60,18 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
           throw new Error(`Missing JSDoc @param description for parameter "${paramName}" in function "${name}"`);
         }
 
+        // Check if parameter is optional or has a default value
+        const isOptional = param.isOptional();
+        const hasQuestionToken = param.getQuestionTokenNode() !== undefined;
+        const hasInitializer = param.getInitializer() !== undefined;
+        const hasNullableType = paramType.includes(" | null") || paramType.includes("null |");
+
         return {
           name: paramName,
           type: paramType,
           description: paramDescription || "",
+          nullable: isOptional || hasQuestionToken || hasInitializer || hasNullableType,
+          ...(hasInitializer && { defaultValue: param.getInitializer()?.getText() }),
         };
       });
 
