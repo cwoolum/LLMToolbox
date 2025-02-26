@@ -12,7 +12,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "openai": "^4.0.0"
+    "openai": "^4.0.0",
+    "@llmtoolbox/test-utils": "0.0.1"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

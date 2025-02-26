@@ -21,6 +21,12 @@
 - Early returns with guard clauses for error handling
 - Use descriptive error messages with context
 
+## Important Node.js Module Setup
+- All packages use ES modules (`"type": "module"` in package.json)
+- When importing from relative paths, always use .js extension (e.g., `import { foo } from "./bar.js"`)
+- TypeScript is configured with `"moduleResolution": "NodeNext"` for proper ESM support
+- Add type annotations for parameters in callbacks to prevent TS errors
+
 ## Supported Frameworks
 - LangChain: Compatible with LangChain's tool schema format
 - Bedrock: Compatible with AWS Bedrock tool schema format

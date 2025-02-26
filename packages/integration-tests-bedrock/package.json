@@ -1,13 +1,16 @@
 {
   "name": "integration-tests-bedrock",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
+    "build": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.751.0",
-    "llm-toolbox": "*"
+    "llm-toolbox": "*",
+    "@llmtoolbox/test-utils": "0.0.1"
   },
   "devDependencies": {
     "vitest": "^3.0.6"

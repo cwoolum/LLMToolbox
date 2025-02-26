@@ -7,7 +7,7 @@ import { ToolMetadata } from "../parser.js";
  */
 export function generateOpenAISchema(tools: ToolMetadata[]) {
   return tools.map((tool) => ({
-    type: "function",
+    type: "function" as const, // Use 'as const' to make TypeScript infer the literal type
     function: {
       name: tool.name,
       description: tool.description,
