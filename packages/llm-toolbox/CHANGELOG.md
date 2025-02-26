@@ -1,5 +1,11 @@
 # llm-toolbox
 
+## 0.2.0
+
+### Minor Changes
+
+- Add support for the Anthropic SDK (by [@cwoolum](https://github.com/cwoolum) in [#2](https://github.com/cwoolum/LLMToolbox/pull/2))
+
 ## 0.1.3
 
 ### Patch Changes
