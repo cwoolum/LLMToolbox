@@ -55,7 +55,7 @@ describe("generateBedrockSchema", () => {
             name: "param1",
             type: "string",
             description: "first parameter.",
-            nullable: false
+            nullable: false,
           },
         ],
         returnType: "string",
@@ -68,13 +68,13 @@ describe("generateBedrockSchema", () => {
             name: "param2",
             type: "number",
             description: "second parameter.",
-            nullable: true
+            nullable: true,
           },
           {
             name: "param3",
             type: "boolean",
             description: "third parameter.",
-            nullable: false
+            nullable: false,
           },
         ],
         returnType: "number",

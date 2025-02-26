@@ -35,15 +35,12 @@ describe("Sample Tools Runner Integration Tests", () => {
       fs.writeFileSync(tmpFilePath, variant.content);
 
       // Output file for the generated tool config
-      const outputFilePath = path.join(
-        __dirname,
-        `generated-tool-config-${variant.name}.ts`
-      );
+      const outputFilePath = path.join(__dirname, `generated-tool-config-${variant.name}.ts`);
 
       // Construct CLI command using relative paths (assuming cwd: integration-tests-bedrock/test)
       const cliCmd = `npx tsx ${path.resolve(
         __dirname,
-        "../../llm-toolbox/src/bin/index.ts"
+        "../../llm-toolbox/src/bin/index.ts",
       )} -f ${tmpFilePath} -r bedrock -o ${outputFilePath}`;
 
       // Execute the CLI command
@@ -55,10 +52,7 @@ describe("Sample Tools Runner Integration Tests", () => {
       expect(generatedConfig).toContain(expectedFunction);
 
       // Validate type compatibility with ToolConfiguration from @aws-sdk/client-bedrock-runtime
-      const typeCheckFilePath = path.join(
-        __dirname,
-        `temp-type-check-${variant.name}.ts`
-      );
+      const typeCheckFilePath = path.join(__dirname, `temp-type-check-${variant.name}.ts`);
       const typeCheckFileContent = `
 import { ToolConfiguration } from "@aws-sdk/client-bedrock-runtime";
 import { toolConfig } from "./generated-tool-config-${variant.name}";

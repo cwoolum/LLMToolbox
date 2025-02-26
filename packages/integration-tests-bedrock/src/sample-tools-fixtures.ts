@@ -9,7 +9,7 @@ export const sampleToolsVariants = [
 export function testFunc(): number {
   return 42;
 }
-`
+`,
   },
   {
     name: "variant2",
@@ -23,7 +23,7 @@ export function testFunc(): number {
 export function add(a: number, b: number): number {
   return a + b;
 }
-`
+`,
   },
   {
     name: "variant3",
@@ -35,6 +35,6 @@ export function add(a: number, b: number): number {
 export function helloWorld(): string {
   return "Hello, world!";
 }
-`
+`,
   },
 ];

@@ -23,7 +23,7 @@ describe("Parser Tests", () => {
       function testFunc(param) {
         return param;
       }
-      `
+      `,
     );
 
     // Parse the temporary file
@@ -56,7 +56,7 @@ describe("Parser Tests", () => {
       function testFunc(param1, param2) {
         return param1 + param2;
       }
-      `
+      `,
     );
 
     const tools = parseFiles([tempFilePath], true);
@@ -87,7 +87,7 @@ describe("Parser Tests", () => {
       function testFunc() {
         return 42;
       }
-      `
+      `,
     );
 
     const tools = parseFiles([tempFilePath], true);
@@ -111,7 +111,7 @@ describe("Parser Tests", () => {
       function testFunc(param) {
         return param;
       }
-      `
+      `,
     );
 
     expect(() => parseFiles([tempFilePath], false)).toThrow("Missing function description");

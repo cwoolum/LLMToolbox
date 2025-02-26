@@ -52,7 +52,7 @@ describe("generateLangChainSchema", () => {
             name: "param1",
             type: "string",
             description: "first parameter.",
-            nullable: false
+            nullable: false,
           },
         ],
         returnType: "string",
@@ -65,14 +65,14 @@ describe("generateLangChainSchema", () => {
             name: "param2",
             type: "number",
             description: "second parameter.",
-            nullable: true
+            nullable: true,
           },
           {
             name: "param3",
             type: "string",
             description: "third parameter.",
-            nullable: false
-          }
+            nullable: false,
+          },
         ],
         returnType: "number",
       },
