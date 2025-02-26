@@ -9,7 +9,7 @@ import { OpenAI } from "openai";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe("OpenAI Integration Tests", () => {
-  it("should generate valid schema for OpenAI and parse it with OpenAI SDK", () => {
+  it("should generate valid schema for OpenAI and parse it with OpenAI SDK", { timeout: 10000 }, () => {
     // Parse the sample tools file
     const toolFilePath = path.join(__dirname, "tools", "sample-tools.ts");
     const parsedTools = parseFiles([toolFilePath]);

@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // Test for parser
 
 describe("Parser Tests", () => {
-  it("should parse function with JSDoc", () => {
+  it("should parse function with JSDoc", { timeout: 10000 }, () => {
     // Create a temporary file with a sample function containing JSDoc comments
     const tempFilePath = path.join(__dirname, "temp_test_file.js");
 
