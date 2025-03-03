@@ -1,0 +1,11 @@
+{
+  "framework": "openai",
+  "files": [
+    "src/tools/**/*.ts"
+  ],
+  "output": "openai-schema.js",
+  "model": "",
+  "ignoreMissingMetadata": false,
+  "debug": false,
+  "validate": true
+}

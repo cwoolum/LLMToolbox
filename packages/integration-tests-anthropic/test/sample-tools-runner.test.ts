@@ -1,9 +1,16 @@
 import { describe, it, expect } from "vitest";
-import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import { sampleToolsVariants } from "../src/sample-tools-fixtures.js";
+import { 
+  buildCliCommand, 
+  cleanupFiles,
+  createTempFile, 
+  getOutputFilePath, 
+  runCommand
+} from "@llmtoolbox/test-utils";
 
 // Mapping of variant name to expected function name
 const expectedFunctionNames: Record<string, string> = {
@@ -12,20 +19,11 @@ const expectedFunctionNames: Record<string, string> = {
   variant3: "helloWorld",
 };
 
-function runCommand(command: string) {
-  try {
-    const output = execSync(command, { stdio: "pipe" });
-    console.log(`Command output: ${output.toString()}`);
-  } catch (error) {
-    if (error.stdout) {
-      console.error(`Command stdout: ${error.stdout.toString()}`);
-    }
-    if (error.stderr) {
-      console.error(`Command stderr: ${error.stderr.toString()}`);
-    }
-    throw error;
-  }
-}
+// Get current directory
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Model name for Anthropic Claude
+const modelName = "claude-3-sonnet-20240229";
 
 describe("Sample Tools Runner Integration Tests for Anthropic", () => {
   // Add setup tests to validate key Anthropic Generator functionality
@@ -56,24 +54,16 @@ describe("Sample Tools Runner Integration Tests for Anthropic", () => {
     expect(cliFileContent).toContain("import { generateAnthropicSchema } from");
   });
 
-  sampleToolsVariants.forEach((variant) => {
+  sampleToolsVariants.forEach((variant: { name: string; content: string }) => {
     it(`should generate tool config for variant ${variant.name}`, () => {
       // Create a temporary file for the variant
-      const tmpFilePath = path.join(__dirname, `temp-${variant.name}.ts`);
-      fs.writeFileSync(tmpFilePath, variant.content);
+      const tmpFilePath = createTempFile(__dirname, variant.name, variant.content);
 
       // Output file for the generated tool config
-      const outputFilePath = path.join(__dirname, `generated-tool-config-${variant.name}.ts`);
+      const outputFilePath = getOutputFilePath(__dirname, variant.name);
 
-      const modelName = "claude-3-sonnet-20240229";
-
-      // Construct CLI command using relative paths
-      const cliCmd = `npx tsx ${path.resolve(
-        __dirname,
-        "../../llm-toolbox/src/bin/index.ts",
-      )} -f ${tmpFilePath} -r anthropic -o ${outputFilePath} -m ${modelName}`;
-
-      // Execute the CLI command
+      // Build and execute CLI command with model name
+      const cliCmd = buildCliCommand(tmpFilePath, outputFilePath, "anthropic", modelName);
       runCommand(cliCmd);
 
       // Read and validate the generated configuration
@@ -107,8 +97,7 @@ describe("Sample Tools Runner Integration Tests for Anthropic", () => {
       expect(tool.input_schema).toHaveProperty("required");
 
       // Cleanup temporary files
-      fs.unlinkSync(tmpFilePath);
-      fs.unlinkSync(outputFilePath);
+      cleanupFiles([tmpFilePath, outputFilePath]);
     }, 20000);
   });
 });

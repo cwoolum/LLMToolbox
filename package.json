@@ -5,9 +5,11 @@
   "type": "module",
   "workspaces": [
     "packages/llm-toolbox",
+    "packages/test-utils",
     "packages/integration-tests-langchain",
     "packages/integration-tests-bedrock",
-    "packages/integration-tests-anthropic"
+    "packages/integration-tests-anthropic",
+    "packages/integration-tests-openai"
   ],
   "scripts": {
     "build": "turbo run build",

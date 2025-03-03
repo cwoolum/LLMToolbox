@@ -1,12 +1,15 @@
 {
   "name": "integration-tests-langchain",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
+    "build": "tsc --noEmit",
     "test:inprogress": "vitest run"
   },
   "dependencies": {
-    "llm-toolbox": "*"
+    "llm-toolbox": "*",
+    "@llmtoolbox/test-utils": "*"
   },
   "devDependencies": {
     "vitest": "^3.0.6"

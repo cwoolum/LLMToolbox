@@ -1,0 +1,22 @@
+{
+  "name": "integration-tests-openai",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Integration tests for OpenAI schema generator",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "openai": "^4.0.0",
+    "@llmtoolbox/test-utils": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.6"
+  }
+}
