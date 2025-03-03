@@ -79,6 +79,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
+          path: packages/llm-toolbox/dist
 
       - name: Creating .npmrc
         run: |

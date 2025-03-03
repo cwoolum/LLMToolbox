@@ -1,5 +1,11 @@
 # llm-toolbox
 
+## 0.3.1
+
+### Patch Changes
+
+- Fix CI/CD flows (by [@cwoolum](https://github.com/cwoolum) in [#8](https://github.com/cwoolum/LLMToolbox/pull/8))
+
 ## 0.3.0
 
 ### Minor Changes
