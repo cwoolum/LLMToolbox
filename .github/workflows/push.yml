@@ -65,15 +65,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: "lts/*"
-      #     cache: "npm"
-      #     cache-dependency-path: "**/package-lock.json"
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
 
-      # - name: Install dependencies
-      #   run: npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Download a single artifact
         uses: actions/download-artifact@v4
