@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "llm-toolbox": "*",
-    "@llmtoolbox/test-utils": "0.0.1"
+    "@llmtoolbox/test-utils": "*"
   },
   "devDependencies": {
     "vitest": "^3.0.6"

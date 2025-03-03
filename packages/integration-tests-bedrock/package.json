@@ -10,7 +10,7 @@
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.751.0",
     "llm-toolbox": "*",
-    "@llmtoolbox/test-utils": "0.0.1"
+    "@llmtoolbox/test-utils": "*"
   },
   "devDependencies": {
     "vitest": "^3.0.6"

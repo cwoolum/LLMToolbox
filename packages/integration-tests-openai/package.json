@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "openai": "^4.0.0",
-    "@llmtoolbox/test-utils": "0.0.1"
+    "@llmtoolbox/test-utils": "*"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
