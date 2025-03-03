@@ -1,5 +1,11 @@
 # llm-toolbox
 
+## 0.3.0
+
+### Minor Changes
+
+- Add support for OpenAI (by [@cwoolum](https://github.com/cwoolum) in [#6](https://github.com/cwoolum/LLMToolbox/pull/6))
+
 ## 0.2.0
 
 ### Minor Changes
