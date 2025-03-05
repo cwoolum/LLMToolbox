@@ -59,14 +59,15 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
           cache: "npm"
@@ -95,5 +96,24 @@ jobs:
         with:
           publish: npm publish -w packages/llm-toolbox
           createGithubReleases: true
+          title: "Release packages"
+          commit: "Release packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create GitHub Release
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          # Extract version from published package
+          VERSION=$(node -p "require('./packages/llm-toolbox/package.json').version")
+          
+          # Get changelog content
+          CHANGELOG=$(cat ./packages/llm-toolbox/CHANGELOG.md | sed -n "/## $VERSION/,/## /p" | sed '$ d' | tail -n +2)
+          
+          # Create GitHub release using gh CLI
+          gh release create v$VERSION \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="llm-toolbox v$VERSION" \
+            --notes="$CHANGELOG"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
