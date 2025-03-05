@@ -1,5 +1,13 @@
 # integration-tests-anthropic
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`fed9880`](https://github.com/cwoolum/LLMToolbox/commit/fed988095a34875e51834ccbc64fcca30e4bc0f6)]:
+  - llm-toolbox@0.4.1
+  - @llmtoolbox/test-utils@0.1.1
+
 ## 0.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # llm-toolbox
 
+## 0.4.1
+
+### Patch Changes
+
+- Fix parser to correctly handle destructured function parameters. (by [@cwoolum](https://github.com/cwoolum) in [#12](https://github.com/cwoolum/LLMToolbox/pull/12))
+
 ## 0.4.0
 
 ### Minor Changes
