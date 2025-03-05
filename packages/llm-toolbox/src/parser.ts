@@ -63,6 +63,55 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
         const paramName = param.getName();
         const paramType = param.getType();
         const paramTypeText = paramType.getText();
+
+        // Check if this is a destructured parameter
+        const isDestructured = param.isParameterProperty() || 
+          (param.getStructure().name && param.getStructure().name.includes("{"));
+        
+        // For destructured parameters, we need to look at the parameter structure differently
+        let finalParamName = paramName;
+        let finalParamType = paramType;
+        let finalParamTypeText = paramTypeText;
+        let paramProperties: Record<string, ParameterMetadata> = {};
+        
+        if (isDestructured) {
+          // Get the object properties that are being destructured
+          const objectProperties = paramType.getProperties();
+          
+          // For each destructured property, create a parameter metadata entry
+          for (const prop of objectProperties) {
+            const propName = prop.getName();
+            const propType = prop.getValueDeclaration()?.getType();
+            const propTypeText = propType?.getText() || "any";
+            
+            paramProperties[propName] = {
+              name: propName,
+              type: propTypeText,
+              description: "", // We'll try to get the JSDoc description below
+              nullable: prop.isOptional(),
+              isObject: propType?.isObject() || false
+            };
+          }
+        }
+        
+        // Look for param descriptions in JSDoc comments
+        // First look for descriptions of the destructured properties
+        if (Object.keys(paramProperties).length > 0) {
+          for (const propName of Object.keys(paramProperties)) {
+            const propDescription = jsDocs
+              .flatMap((doc) => doc.getTags())
+              .find((tag) => tag.getTagName() === "param" && tag.getText().includes(propName))
+              ?.getComment()
+              ?.toString()
+              .trim();
+              
+            if (propDescription) {
+              paramProperties[propName].description = propDescription;
+            }
+          }
+        }
+        
+        // Get description for the parameter itself
         const paramDescription = jsDocs
           .flatMap((doc) => doc.getTags())
           .find((tag) => tag.getTagName() === "param" && tag.getText().includes(paramName))
@@ -70,7 +119,7 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
           ?.toString()
           .trim();
 
-        if (!paramDescription && !ignoreMissing) {
+        if (!paramDescription && !ignoreMissing && !isDestructured) {
           throw new Error(`Missing JSDoc @param description for parameter "${paramName}" in function "${name}"`);
         }
 
@@ -81,19 +130,21 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
         const hasNullableType = paramTypeText.includes(" | null") || paramTypeText.includes("null |");
         
         // Check if this is an object type with properties
-        const isObject = paramType.isObject() && !paramType.getText().startsWith("Array") && 
-                        !paramType.getText().startsWith("Map") && !paramType.getText().startsWith("Set");
+        const isObject = finalParamType.isObject() && !finalParamTypeText.startsWith("Array") && 
+                        !finalParamTypeText.startsWith("Map") && !finalParamTypeText.startsWith("Set");
         
         // Parse nested properties for object types
-        const properties: Record<string, ParameterMetadata> = {};
+        const properties: Record<string, ParameterMetadata> = isDestructured 
+          ? paramProperties 
+          : {};
         
-        if (isObject) {
-          const typeSymbol = paramType.getSymbol();
+        if (isObject && !isDestructured) {
+          const typeSymbol = finalParamType.getSymbol();
           if (typeSymbol) {
             const declaration = typeSymbol.getDeclarations()[0];
             if (declaration) {
               // Try to get properties from type declaration
-              const members = paramType.getProperties();
+              const members = finalParamType.getProperties();
               for (const member of members) {
                 const memberName = member.getName();
                 const memberType = member.getValueDeclaration()?.getType();
@@ -112,8 +163,8 @@ export function parseFiles(files: string[], ignoreMissing: boolean): ToolMetadat
         }
         
         return {
-          name: paramName,
-          type: paramTypeText,
+          name: finalParamName,
+          type: finalParamTypeText,
           description: paramDescription || "",
           nullable: isOptional || hasQuestionToken || hasInitializer || hasNullableType,
           ...(hasInitializer && { defaultValue: param.getInitializer()?.getText() }),

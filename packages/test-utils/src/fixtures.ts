@@ -49,6 +49,28 @@ export function helloWorld(): string {
 }
 `,
   },
+  {
+    name: "destructuredParam",
+    content: `
+/**
+ * Reads a file from the given path.
+ * @param filePath - Path to the file to read.
+ * @returns {Promise<string | undefined>} The file contents or undefined if there was an error.
+ */
+export async function getFile({
+  filePath
+}: {
+  filePath: string;
+}): Promise<string | undefined> {
+  try {
+    return await fs.readFile(filePath, "utf8");
+  } catch (error) {
+    console.error(\`Error reading file \${filePath}:\`, error);
+    return undefined;
+  }
+}
+`,
+  },
 ];
 
 /**
@@ -447,6 +469,7 @@ export const expectedFunctionNames: Record<string, string> = {
   variant1: "testFunc",
   variant2: "add",
   variant3: "helloWorld",
+  destructuredParam: "getFile",
   complex1: "createUserAccount", // Anthropic & Bedrock
   complex2: "search", // Anthropic & Bedrock
 };
@@ -458,6 +481,7 @@ export const openaiExpectedFunctionNames: Record<string, string> = {
   variant1: "testFunc",
   variant2: "add",
   variant3: "helloWorld",
+  destructuredParam: "getFile",
   complex1: "findProducts",
   complex2: "processData",
   complex3: "executeQuery",
