@@ -1,4 +1,4 @@
-import { ToolMetadata } from "../parser.js";
+import { ToolMetadata, ParameterMetadata } from "../parser.js";
 
 /**
  * Generate OpenAI function schema from tool metadata
@@ -16,10 +16,7 @@ export function generateOpenAISchema(tools: ToolMetadata[]) {
         properties: Object.fromEntries(
           tool.parameters.map((param) => [
             param.name,
-            {
-              type: convertTypeToOpenAI(param.type),
-              description: param.description,
-            },
+            createParameterSchema(param)
           ])
         ),
         required: tool.parameters
@@ -28,6 +25,36 @@ export function generateOpenAISchema(tools: ToolMetadata[]) {
       },
     },
   }));
+}
+
+/**
+ * Creates OpenAI schema for a parameter, handling nested types
+ * @param param - Parameter metadata
+ * @returns OpenAI schema for the parameter
+ */
+function createParameterSchema(param: ParameterMetadata): Record<string, any> {
+  // Handle nested object types
+  if (param.isObject && param.properties) {
+    return {
+      type: "object",
+      description: param.description,
+      properties: Object.fromEntries(
+        Object.entries(param.properties).map(([propName, propData]: [string, ParameterMetadata]) => [
+          propName,
+          createParameterSchema(propData)
+        ])
+      ),
+      required: Object.entries(param.properties)
+        .filter(([_, propData]: [string, ParameterMetadata]) => !propData.nullable)
+        .map(([propName]) => propName)
+    };
+  } 
+  
+  // Handle basic types
+  return {
+    type: convertTypeToOpenAI(param.type),
+    description: param.description,
+  };
 }
 
 /**

@@ -19,6 +19,8 @@ const expectedFunctionNames: Record<string, string> = {
   variant1: "testFunc",
   variant2: "add",
   variant3: "helloWorld",
+  complex1: "createUserAccount",
+  complex2: "search",
 };
 
 // Get current directory

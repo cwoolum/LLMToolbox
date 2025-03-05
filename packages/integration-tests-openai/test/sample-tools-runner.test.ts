@@ -3,7 +3,6 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 
-import { sampleToolsVariants } from "../src/sample-tools-fixtures.js";
 import {
   buildCliCommand,
   cleanupFiles,
@@ -12,15 +11,16 @@ import {
   getOutputFilePath,
   runCommand,
   runTypeCheck,
-  validateSchema
+  validateSchema,
+  getTestVariantsForFramework,
+  getExpectedFunctionNames
 } from "@llmtoolbox/test-utils";
 
-// Mapping of variant name to expected function name
-const expectedFunctionNames: Record<string, string> = {
-  variant1: "testFunc",
-  variant2: "add",
-  variant3: "helloWorld",
-};
+// Get test variants for OpenAI
+const testVariants = getTestVariantsForFramework("openai");
+
+// Get expected function names for OpenAI
+const expectedFunctionNames = getExpectedFunctionNames("openai");
 
 // Get current directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -57,7 +57,7 @@ describe("Sample Tools Runner Integration Tests for OpenAI", () => {
     expect(cliFileContent).toContain("import { generateOpenAISchema } from");
   });
 
-  sampleToolsVariants.forEach((variant: { name: string; content: string }) => {
+  testVariants.forEach((variant: { name: string; content: string }) => {
     it(`should generate tool config for variant ${variant.name}`, async () => {
       try {
         // Create a temporary file for the variant

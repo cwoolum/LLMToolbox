@@ -4,7 +4,7 @@ import { generateLangChainSchema } from "./generators/langchain.js";
 import { generateBedrockSchema } from "./generators/bedrock.js";
 import { generateAnthropicSchema } from "./generators/anthropic.js";
 import { generateOpenAISchema } from "./generators/openai.js";
-import { loadConfig } from "./config.js";
+import { loadConfig, setDebugMode } from "./config.js";
 import { getValidator } from "./validators/index.js";
 import { runInteractiveUI, withSpinner, displayParsedTools } from "./ui.js";
 import chalk from "chalk";
@@ -73,6 +73,9 @@ export async function runCLI() {
   const ignoreMissing = options.ignoreMissingMetadata;
   const debug = options.debug || false;
   const shouldValidate = options.validate || false;
+  
+  // Set global debug mode
+  setDebugMode(debug);
 
   console.log(chalk.blue("Starting processing..."));
   

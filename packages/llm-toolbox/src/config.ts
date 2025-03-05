@@ -14,6 +14,17 @@ export interface LLMToolboxConfig {
   validate?: boolean;
 }
 
+// Global debug mode flag
+export let debugMode = false;
+
+/**
+ * Set debug mode
+ * @param debug - Whether debug mode is enabled
+ */
+export function setDebugMode(debug: boolean): void {
+  debugMode = debug;
+}
+
 /**
  * Load configuration from .llmtoolboxrc.json file
  * @param configPath - Optional path to config file, defaults to .llmtoolboxrc.json in current directory

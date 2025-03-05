@@ -20,7 +20,7 @@ describe("Parser Tests", () => {
        * A test function.
        * @param param a test parameter.
        */
-      function testFunc(param) {
+      export function testFunc(param) {
         return param;
       }
       `,
@@ -53,7 +53,7 @@ describe("Parser Tests", () => {
        * @param param1 first parameter.
        * @param param2 second parameter.
        */
-      function testFunc(param1, param2) {
+      export function testFunc(param1, param2) {
         return param1 + param2;
       }
       `,
@@ -84,7 +84,7 @@ describe("Parser Tests", () => {
        * A test function with a return type.
        * @returns {number} The result.
        */
-      function testFunc() {
+      export function testFunc() {
         return 42;
       }
       `,
@@ -108,7 +108,7 @@ describe("Parser Tests", () => {
     fs.writeFileSync(
       tempFilePath,
       `
-      function testFunc(param) {
+      export function testFunc(param) {
         return param;
       }
       `,

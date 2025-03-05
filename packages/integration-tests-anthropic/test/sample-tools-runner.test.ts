@@ -3,21 +3,22 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { sampleToolsVariants } from "../src/sample-tools-fixtures.js";
-import { 
-  buildCliCommand, 
+import {
+  buildCliCommand,
   cleanupFiles,
-  createTempFile, 
-  getOutputFilePath, 
-  runCommand
+  createTempFile,
+  getOutputFilePath,
+  runCommand,
+  getTestVariantsForFramework,
+  getExpectedFunctionNames
 } from "@llmtoolbox/test-utils";
+import { sampleToolsVariants } from "../src/sample-tools-fixtures.js";
 
-// Mapping of variant name to expected function name
-const expectedFunctionNames: Record<string, string> = {
-  variant1: "testFunc",
-  variant2: "add",
-  variant3: "helloWorld",
-};
+// Get test variants for Anthropic
+const testVariants = getTestVariantsForFramework("anthropic");
+
+// Get expected function names for Anthropic
+const expectedFunctionNames = getExpectedFunctionNames("anthropic");
 
 // Get current directory
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
