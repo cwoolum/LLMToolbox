@@ -1,9 +1,9 @@
 ---
 '@llmtoolbox/test-utils': minor
 'llm-toolbox': minor
-'@llmtoolbox/integration-tests-anthropic': patch
-'@llmtoolbox/integration-tests-bedrock': patch
-'@llmtoolbox/integration-tests-openai': patch
+'integration-tests-anthropic': patch
+'integration-tests-bedrock': patch
+'integration-tests-openai': patch
 ---
 
 Add centralized test fixture system and improve object type handling in parsers.
