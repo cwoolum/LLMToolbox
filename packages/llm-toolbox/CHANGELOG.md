@@ -1,5 +1,11 @@
 # llm-toolbox
 
+## 0.4.2
+
+### Patch Changes
+
+- Add GitHub Releases creation when packages are published. (in [`3c4225b`](https://github.com/cwoolum/LLMToolbox/commit/3c4225ba88de58801bc76c34f289b1fddf3a0a96))
+
 ## 0.4.1
 
 ### Patch Changes
