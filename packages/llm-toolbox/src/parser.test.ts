@@ -101,6 +101,50 @@ describe("Parser Tests", () => {
     fs.unlinkSync(tempFilePath);
   });
 
+  // Test for a function with destructured parameters
+  it("should parse function with destructured parameters", () => {
+    const tempFilePath = path.join(__dirname, "temp_test_file_destructured_params.js");
+
+    fs.writeFileSync(
+      tempFilePath,
+      `/**
+       * Reads a file from the given path.
+       * @param filePath - Path to the file to read.
+       * @returns {Promise<string | undefined>} The file contents or undefined if there was an error.
+       */
+      export async function getFile({
+        filePath
+      }: {
+        filePath: string;
+      }): Promise<string | undefined> {
+        try {
+          return "file content";
+        } catch (error) {
+          return undefined;
+        }
+      }
+      `,
+    );
+
+    const tools = parseFiles([tempFilePath], true);
+
+    expect(tools.length).toBe(1);
+    const tool = tools[0];
+    expect(tool.name).toBe("getFile");
+    expect(tool.parameters.length).toBe(1);
+    
+    // The parameter itself should have properties
+    expect(tool.parameters[0].isObject).toBe(true);
+    expect(tool.parameters[0].properties).toBeDefined();
+    
+    // The 'filePath' property should be defined in the properties object
+    expect(tool.parameters[0].properties?.filePath).toBeDefined();
+    expect(tool.parameters[0].properties?.filePath.name).toBe("filePath");
+    expect(tool.parameters[0].properties?.filePath.type).toBe("string");
+
+    fs.unlinkSync(tempFilePath);
+  });
+
   // Test for a function without JSDoc comments
   it("should throw error for function without JSDoc", () => {
     const tempFilePath = path.join(__dirname, "temp_test_file_no_jsdoc.js");
