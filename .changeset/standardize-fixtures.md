@@ -1,6 +1,6 @@
 ---
 '@llmtoolbox/test-utils': minor
-'@llmtoolbox/llm-toolbox': minor
+'llm-toolbox': minor
 '@llmtoolbox/integration-tests-anthropic': patch
 '@llmtoolbox/integration-tests-bedrock': patch
 '@llmtoolbox/integration-tests-openai': patch
