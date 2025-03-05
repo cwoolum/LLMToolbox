@@ -2,6 +2,7 @@ import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import { expect } from "vitest";
+export * from "./fixtures.js";
 
 /**
  * Interface for test variant

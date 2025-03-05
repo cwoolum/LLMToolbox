@@ -31,3 +31,19 @@
 - LangChain: Compatible with LangChain's tool schema format
 - Bedrock: Compatible with AWS Bedrock tool schema format
 - Anthropic: Compatible with Anthropic TypeScript SDK tool schema format
+
+## Committing changes
+
+Befor committing changes, you always need to create a changeset file. Changeset files should follow this format:
+```
+---
+'package-name': major|minor|patch
+---
+
+Description of the changes in clear, concise language.
+```
+Rules:
+1. Use semantic versioning rules to determine if changes are major, minor, or patch
+2. Write clear, specific descriptions that explain what changed and why
+3. Multiple packages can be listed if needed
+4. The description should be written in present tense

@@ -18,12 +18,12 @@ vi.mock("./generators/langchain.js", () => ({ generateLangChainSchema: vi.fn() }
 vi.mock("./generators/bedrock.js", () => ({ generateBedrockSchema: vi.fn() }));
 vi.mock("./generators/anthropic.js", () => ({ generateAnthropicSchema: vi.fn() }));
 vi.mock("./generators/openai.js", () => ({ generateOpenAISchema: vi.fn() }));
-vi.mock("./config.js", () => ({ loadConfig: vi.fn().mockReturnValue({}) }));
+vi.mock("./config.js", () => ({ loadConfig: vi.fn().mockReturnValue({}), setDebugMode: vi.fn() }));
 vi.mock("fs", () => ({ writeFileSync: vi.fn() }));
 vi.mock("./ui.js", () => ({
-  runInteractiveUI: vi.fn().mockResolvedValue({ 
-    files: ["test.ts"], 
-    framework: "langchain", 
+  runInteractiveUI: vi.fn().mockResolvedValue({
+    files: ["test.ts"],
+    framework: "langchain",
     output: "output.json",
     ignoreMissingMetadata: false,
     debug: false,
@@ -44,13 +44,13 @@ vi.mock("chalk", () => ({
 }));
 
 // Mock process.exit to prevent tests from exiting
-const mockExit = vi.spyOn(process, "exit").mockImplementation((code) => { 
-  throw new Error(`Process exit with code ${code}`); 
+const mockExit = vi.spyOn(process, "exit").mockImplementation((code) => {
+  throw new Error(`Process exit with code ${code}`);
 });
 
 // Mock console.error and console.log
-const mockConsoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-const mockConsoleLog = vi.spyOn(console, "log").mockImplementation(() => {});
+const mockConsoleError = vi.spyOn(console, "error").mockImplementation(() => { });
+const mockConsoleLog = vi.spyOn(console, "log").mockImplementation(() => { });
 
 // Save original process.argv
 const originalArgv = process.argv;
@@ -83,13 +83,13 @@ describe("CLI", () => {
 
     // Verify parseFiles was called with correct arguments
     expect(parseFiles).toHaveBeenCalledWith(["test.ts"], false);
-    
+
     // Verify correct schema generator was called
     expect(generateLangChainSchema).toHaveBeenCalled();
     expect(generateBedrockSchema).not.toHaveBeenCalled();
     expect(generateAnthropicSchema).not.toHaveBeenCalled();
     expect(generateOpenAISchema).not.toHaveBeenCalled();
-    
+
     // Verify file was written
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       "output.json",
@@ -111,13 +111,13 @@ describe("CLI", () => {
 
     // Run CLI
     await runCLI();
-    
+
     // Verify correct schema generator was called with model
     expect(generateBedrockSchema).toHaveBeenCalledWith(
-      expect.anything(), 
+      expect.anything(),
       "claude-3-sonnet"
     );
-    
+
     expect(fs.writeFileSync).toHaveBeenCalled();
   });
 
@@ -134,7 +134,7 @@ describe("CLI", () => {
 
     // Run CLI
     await runCLI();
-    
+
     // Verify correct schema generator was called
     expect(generateAnthropicSchema).toHaveBeenCalled();
     expect(fs.writeFileSync).toHaveBeenCalled();
@@ -153,7 +153,7 @@ describe("CLI", () => {
 
     // Run CLI
     await runCLI();
-    
+
     // Verify correct schema generator was called
     expect(generateOpenAISchema).toHaveBeenCalled();
     expect(fs.writeFileSync).toHaveBeenCalled();
@@ -169,7 +169,7 @@ describe("CLI", () => {
 
     // Run CLI should throw error due to mock exit
     await expect(runCLI()).rejects.toThrow();
-    
+
     // Since we're mocking chalk, just verify that console.error was called
     expect(mockConsoleError).toHaveBeenCalled();
     expect(mockExit).toHaveBeenCalledWith(1);
@@ -177,7 +177,7 @@ describe("CLI", () => {
 
   it("should load config from file", async () => {
     // Mock config file with some settings
-    vi.mocked(loadConfig).mockReturnValueOnce({ 
+    vi.mocked(loadConfig).mockReturnValueOnce({
       framework: "anthropic",
       model: "claude-3-opus"
     });
@@ -193,17 +193,17 @@ describe("CLI", () => {
 
     // Run CLI
     await runCLI();
-    
+
     // Should use framework from config
     expect(generateAnthropicSchema).toHaveBeenCalledWith(
-      expect.anything(), 
+      expect.anything(),
       "claude-3-opus"
     );
   });
 
   it("should override config with CLI options", async () => {
     // Mock config file with some settings
-    vi.mocked(loadConfig).mockReturnValueOnce({ 
+    vi.mocked(loadConfig).mockReturnValueOnce({
       framework: "anthropic",
       model: "claude-3-opus"
     });
@@ -221,10 +221,10 @@ describe("CLI", () => {
 
     // Run CLI
     await runCLI();
-    
+
     // Should use framework from CLI
     expect(generateBedrockSchema).toHaveBeenCalledWith(
-      expect.anything(), 
+      expect.anything(),
       "claude-3-opus"
     );
     expect(generateAnthropicSchema).not.toHaveBeenCalled();
@@ -244,7 +244,7 @@ describe("CLI", () => {
 
     // Run CLI
     await runCLI();
-    
+
     // Verify console.log was called multiple times (we don't check the exact message
     // because we're mocking chalk which affects the output)
     expect(mockConsoleLog).toHaveBeenCalled();

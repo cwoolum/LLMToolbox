@@ -110,4 +110,91 @@ describe("OpenAI Generator", () => {
     expect(properties.anyParam.type).toBe("object");
     expect(properties.unknownParam.type).toBe("string"); // Default to string for unknown types
   });
+
+  it("should handle nested object parameters", () => {
+    const toolMetadata: ToolMetadata[] = [
+      {
+        name: "createUser",
+        description: "Create a new user",
+        parameters: [
+          {
+            name: "user",
+            type: "object",
+            description: "User information",
+            nullable: false,
+            isObject: true,
+            properties: {
+              name: {
+                name: "name",
+                type: "string",
+                description: "User's name",
+                nullable: false
+              },
+              age: {
+                name: "age",
+                type: "number",
+                description: "User's age",
+                nullable: true
+              },
+              address: {
+                name: "address",
+                type: "object",
+                description: "User's address",
+                nullable: true,
+                isObject: true,
+                properties: {
+                  street: {
+                    name: "street",
+                    type: "string",
+                    description: "Street address",
+                    nullable: false
+                  },
+                  city: {
+                    name: "city",
+                    type: "string", 
+                    description: "City",
+                    nullable: false
+                  }
+                }
+              }
+            }
+          }
+        ],
+        returnType: "object",
+      },
+    ];
+
+    const schema = generateOpenAISchema(toolMetadata);
+    
+    expect(schema[0].function.parameters.properties.user).toEqual({
+      type: "object",
+      description: "User information",
+      properties: {
+        name: {
+          type: "string",
+          description: "User's name"
+        },
+        age: {
+          type: "number",
+          description: "User's age" 
+        },
+        address: {
+          type: "object",
+          description: "User's address",
+          properties: {
+            street: {
+              type: "string",
+              description: "Street address"
+            },
+            city: {
+              type: "string",
+              description: "City"
+            }
+          },
+          required: ["street", "city"]
+        }
+      },
+      required: ["name"]
+    });
+  });
 });
